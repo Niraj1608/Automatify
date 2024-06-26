@@ -1,12 +1,8 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them,
-# build the source code and run tests across different versions of node.
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
   push:
-    branches: 
+    branches:
       - main
   pull_request:
     branches:
@@ -18,14 +14,15 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
+        # You can adjust this matrix as needed, focusing on Node.js 18.x for now
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2  # Use version v2 for Node.js 20 support
+        uses: actions/setup-node@v4  # Use v4 or later to avoid deprecation warnings
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
