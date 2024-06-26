@@ -25,18 +25,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Update to a version that supports Node.js 20
+        with:
+          submodules: true  # If you have submodules in your repository
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Build and Collect Static Files
+        run: |
+          npm install
+          npm run build  # Adjust this command based on your project setup
+          npm run collect-static  # Custom command to collect static files
 
       - name: Upload views directory to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./views
+          publish_dir: ./views  # Adjust this path as needed to match your project structure
           publish_branch: gh-pages
           allow_empty_commit: true
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+
