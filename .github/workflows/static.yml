@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3  # Update to a version that supports Node.js 20
+        uses: actions/checkout@v3
         with:
           submodules: true  # If you have submodules in your repository
 
@@ -38,6 +38,9 @@ jobs:
           npm run build  # Adjust this command based on your project setup
           npm run collect-static  # Custom command to collect static files
 
+      - name: Debug SSH Connectivity
+        run: ssh -vT git@github.com  # Add debugging step to check SSH connectivity
+
       - name: Upload views directory to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -48,4 +51,3 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-
