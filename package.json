@@ -1,42 +1,33 @@
-name: Node.js CI/CD
+{
+  "name": "text_extract",
+  "version": "1.0.0",
+  "main": "index.mjs",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node ./index.js",
+      "dev": "nodemon ./index.js",
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'  # Adjust the Node.js version as per your project's requirements
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm install --only=prod  # Install production dependencies only
-
-      - name: Build Project
-        run: |
-          npm run build || {
-            echo "Build failed";
-            exit 1;
-          }
-
-      - name: Run Tests
-        run: npm test  # Adjust this command according to your testing framework or requirements
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          deploy_key: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./views  # Adjust to your actual publish directory
-          publish_branch: gh-pages
-          allow_empty_commit: true
+      "build": "npm install --production"
+    },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.0.12",
+    "@clerk/nextjs": "^5.1.6",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.4.0",
+    "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
+    "hbs": "^4.2.0",
+    "mime": "^4.0.3",
+    "multer": "^1.4.5-lts.1",
+    "node-tesseract-ocr": "^2.2.1",
+    "nodejs-tesseract": "^1.0.1",
+    "pdf-parse": "^1.1.1",
+    "pdfreader": "^3.0.2"
+  },
+  "description": ""
+}
