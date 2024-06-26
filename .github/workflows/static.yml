@@ -40,6 +40,9 @@ jobs:
 
       - name: Debug SSH Connectivity
         run: ssh -vT git@github.com  # Add debugging step to check SSH connectivity
+      - name: Debug SSH Connectivity
+        run: ssh -vT git@github.com
+
 
       - name: Upload views directory to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
