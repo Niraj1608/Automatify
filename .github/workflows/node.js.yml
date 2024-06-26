@@ -1,4 +1,4 @@
-name: Node.js CI
+name: Node.js CI/CD
 
 on:
   push:
@@ -7,38 +7,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2  # Use the latest version supporting Node.js 20
+        uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '14'  # Adjust the Node.js version as per your project's requirements
           cache: 'npm'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --only=prod  # Install production dependencies only
 
       - name: Build Project
         run: |
-          npm run build --if-present || {
+          npm run build || {
             echo "Build failed";
             exit 1;
           }
 
       - name: Run Tests
-        run: |
-          npm test || {
-            echo "Tests failed";
-            exit 1;
-          }
+        run: npm test  # Adjust this command according to your testing framework or requirements
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v2  # Update to the latest version supporting Node.js 20
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        if: success()  # Deploy only if the build and tests pass
         with:
-          name: Built Files
-          path: ./path/to/artifact  # Adjust as per your build output
+          deploy_key: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./views  # Adjust to your actual publish directory
+          publish_branch: gh-pages
+          allow_empty_commit: true
