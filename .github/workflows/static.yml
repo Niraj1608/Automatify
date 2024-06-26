@@ -24,23 +24,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - name: Checkout Repository (using Node.js 20)
+        uses: actions/checkout@v3
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Build and Collect Static Files
-        run: |
-          npm install
-          npm run build  # Adjust this command based on your project setup
-          npm run collect-static  # Custom command to collect static files
+      - name: Install dependencies
+        run: npm install
 
-      - name: Upload views directory to GitHub Pages
+      - name: Build static files (adjust this command as needed)
+        run: npm run build
+
+      - name: Upload static files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           deploy_key: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./views  # Adjust this path as needed to match your project structure
+          publish_dir: ./views   # Adjust this path as needed to match your project structure
           publish_branch: gh-pages
           allow_empty_commit: true
 
